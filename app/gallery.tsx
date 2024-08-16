@@ -9,6 +9,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa6";
 
+import Controls from "./controls";
 import Modal from "./modal";
 
 import { User } from "./types/user";
