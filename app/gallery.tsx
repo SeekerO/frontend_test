@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -12,19 +12,26 @@ import {
 import Modal from "./modal";
 
 import { User } from "./types/user";
+import SortUsers from "./feature/sort_users";
 
 export type GalleryProps = {
   users: User[];
+  handleFunctionNewData(): void;
 };
-const Gallery = ({ users }: GalleryProps) => {
-  const [usersList, setUsersList] = useState(users);
+const Gallery = ({ users, handleFunctionNewData }: GalleryProps) => {
+
+  const [usersList, setUsersList] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setUsersList(users)
+  }, [users])
 
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
 
-    if(user) {
+    if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
     }
@@ -37,7 +44,12 @@ const Gallery = ({ users }: GalleryProps) => {
 
   return (
     <div className="user-gallery">
-      <h1 className="heading">Users</h1>
+      <div className="sort-container">
+        <h1 className="heading">Users</h1>
+        <button className="button-fetch" onClick={() => handleFunctionNewData()}>Fetch API Data</button>
+        <SortUsers data={usersList} setSortData={setUsersList} />
+      </div>
+
       <div className="items">
         {usersList.map((user, index) => (
           <div
@@ -46,12 +58,14 @@ const Gallery = ({ users }: GalleryProps) => {
             onClick={() => handleModalOpen(user.id)}
           >
             <div className="body">
-              <Avatar
-                size={96}
-                name={user.name}
-                variant="marble"
-                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
-              />
+              <div className="avatar-container">
+                {user.profile_path !== "" ? <img className="new-avatar" src={user.profile_path} /> : <Avatar
+                  size={96}
+                  name={user.name}
+                  variant="marble"
+                  colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                />}
+              </div>
             </div>
             <div className="info">
               <div className="name">{user.name}</div>
@@ -75,31 +89,27 @@ const Gallery = ({ users }: GalleryProps) => {
               {selectedUser && (
                 <div className="user-info info">
                   <div className="avatar">
-                    <Avatar
-                      size={240}
-                      name={selectedUser.name}
-                      variant="marble"
-                      colors={[
-                        "#92A1C6",
-                        "#146A7C",
-                        "#F0AB3D",
-                        "#C271B4",
-                        "#C20D90",
-                      ]}
-                    />
+                    <div className="avatar-container">
+                      {selectedUser.profile_path !== "" ? <img className="modal-new-avatar" src={selectedUser.profile_path} /> : <Avatar
+                        size={200}
+                        name={selectedUser.name}
+                        variant="marble"
+                        colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                      />}
+                    </div>
                   </div>
                   <div className="name">
                     {selectedUser.name} ({selectedUser.username})
                   </div>
                   <div className="field">
                     <FaLocationDot className="icon" />
-                    <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
+                    <div className="value">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
                   </div>
                   <div className="field">
                     <FaPhone className="icon" />
                     <div className="value">{selectedUser.phone}</div>
                   </div>
-                  <div className="fields">
+                  <div className="field">
                     <FaEnvelope className="icon" />
                     <div className="value">{selectedUser.email}</div>
                   </div>

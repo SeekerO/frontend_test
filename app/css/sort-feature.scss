@@ -1,0 +1,42 @@
+.sort-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .button-fetch {
+    height: fit-content;
+    cursor: pointer;
+  }
+}
+.sort-div {
+  display: flex;
+  gap: 1rem;
+
+  > .sort-cell {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+}
+
+.new-avatar {
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+}
+
+.modal-new-avatar {
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+}
+
+.avatar-container {
+  background-color: rgb(221, 218, 213);
+  border-radius: 100%;
+}

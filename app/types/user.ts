@@ -7,6 +7,7 @@ export type User = {
   phone: string;
   website: string;
   company: Company;
+  profile_path: string;
 };
 
 export type Address = {
