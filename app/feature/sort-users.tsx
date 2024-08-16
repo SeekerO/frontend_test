@@ -86,10 +86,19 @@ const SortUsers = ({ data, setSortData }: Data_Set) => {
     useEffect(() => {
         if (sortDirectionOption) {
             const sortedData = [...data].sort((a, b) => {
-                return a.name > b.name && sortDirectionOption === "asc" ? 1 : -1;
+                return a[sortFieldOption] > b[sortFieldOption] && sortDirectionOption === "asc" ? 1 : -1;
             });
             setSortData(sortedData);
         }
+if (sortFieldOption === "company") {
+            const sortedData = [...data].sort((a, b) => {
+                if (a.company.name > b.company.name) return sortDirectionOption === "asc" ? 1 : -1;
+                return 0;
+            });
+            setSortData(sortedData);
+        }
+
+
     }, [sortDirectionOption])
 
 
