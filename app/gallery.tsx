@@ -13,6 +13,7 @@ import Controls from "./controls";
 import Modal from "./modal";
 
 import { User } from "./types/user";
+import SortUsers from "./feature/sort-users";
 
 export type GalleryProps = {
   users: User[];
@@ -38,9 +39,9 @@ const Gallery = ({ users }: GalleryProps) => {
 
   return (
     <div className="user-gallery">
-      <div className="heading">
-        <h1 className="title">Users</h1>
-        <Controls />
+      <div className="sort-container">
+        <h1 className="heading">Users</h1>
+        <SortUsers data={usersList} setSortData={setUsersList} />
       </div>
       <div className="items">
         {usersList.map((user, index) => (
